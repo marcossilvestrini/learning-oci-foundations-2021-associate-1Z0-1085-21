@@ -1,6 +1,6 @@
 # LEARNNING OCI Foundations 2021 Associate [1Z0-1085-21]
 
-![101-500_ Linux Administrator - 101 (LPIC-1 101)](https://user-images.githubusercontent.com/62715900/133132076-c84f0bad-5475-4c3a-9cb4-c9403234778c.png)
+![50_Oracle_Cloud_Infrastructure](https://user-images.githubusercontent.com/62715900/135468618-d814c2ee-62d0-4be0-8240-578945d4b62c.png)
 
 >This project is about learning for OCI Foundations 2021 Associate [1Z0-1085-21]
 
