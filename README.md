@@ -17,5 +17,32 @@
 
 - [Oracle Cloud](https://www.oracle.com/cloud/)
 - [Course](https://learn.oracle.com/ols/learning-path/become-an-oci-foundation-associate/35644/98057)
-- [Oracle Cloud Free Tier](Oracle Cloud Free Tier)
+- [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/)
 - [Powershell OCI Module](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/powershellgettingstarted.htm)
+
+## Oracle Cloud Free Tier Account
+
+- Oracle Cloud Free Tier Account
+- OCI console walk-throught
+- Setting up your tenancy
+- MFA and Budget setup
+
+## foo1
+
+- bar1
+
+## foo2
+
+- bar2
+
+## foo3
+
+- bar3
+
+## foo4
+
+- bar4
+
+## foo5
+
+- bar5
