@@ -20,6 +20,12 @@
 - [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/)
 - [Powershell OCI Module](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/powershellgettingstarted.htm)
 
+## OCI Introduction
+
+- OCI Overview
+
+- OCI Architecture
+
 ## Oracle Cloud Free Tier Account
 
 - Oracle Cloud Free Tier Account
@@ -27,9 +33,7 @@
 - Setting up your tenancy
 - MFA and Budget setup
 
-## foo1
 
-- bar1
 
 ## foo2
 
