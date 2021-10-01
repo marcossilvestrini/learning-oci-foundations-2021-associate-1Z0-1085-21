@@ -2,7 +2,7 @@
 
 ![50_Oracle_Cloud_Infrastructure](https://user-images.githubusercontent.com/62715900/135468618-d814c2ee-62d0-4be0-8240-578945d4b62c.png)
 
->This project is about learning for OCI Foundations 2021 Associate [1Z0-1085-21]
+>This project is about learning for OCI Foundations 2021 Associate [1Z0-1085-21]\
 >All images were taken from the official course, with all rights reserved to the official source
 
 ## Authors
