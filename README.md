@@ -3,6 +3,7 @@
 ![50_Oracle_Cloud_Infrastructure](https://user-images.githubusercontent.com/62715900/135468618-d814c2ee-62d0-4be0-8240-578945d4b62c.png)
 
 >This project is about learning for OCI Foundations 2021 Associate [1Z0-1085-21]
+>All images were taken from the official course, with all rights reserved to the official source
 
 ## Authors
 
@@ -22,9 +23,19 @@
 
 ## OCI Introduction
 
-- OCI Overview
+### OCI Overview
 
-- OCI Architecture
+![image](https://user-images.githubusercontent.com/62715900/135547108-fed99620-564c-449f-8177-018440dfd22e.png)
+
+### OCI Architecture
+
+#### OCI AD
+
+![image](https://user-images.githubusercontent.com/62715900/135547240-f7e6e4a6-a712-4a66-80f5-8d3958bca889.png)
+
+#### OCI FD
+
+![image](https://user-images.githubusercontent.com/62715900/135547358-699894ca-1493-44db-9983-da057c376375.png)
 
 ## Oracle Cloud Free Tier Account
 
@@ -34,19 +45,6 @@
 - MFA and Budget setup
 
 
+## foo
 
-## foo2
-
-- bar2
-
-## foo3
-
-- bar3
-
-## foo4
-
-- bar4
-
-## foo5
-
-- bar5
+- bar
