@@ -45,6 +45,46 @@
 - MFA and Budget setup
 
 
-## foo
+## Identity and Access Managment
 
-- bar
+### OCI IAM
+
+![image](https://user-images.githubusercontent.com/62715900/135934982-91a01b36-c61b-40fc-98b3-e4ec52082cbd.png)
+
+### OCI Identity Conecpts
+
+![image](https://user-images.githubusercontent.com/62715900/135935744-825e61c3-2add-4176-8014-08f36dee3b7c.png)
+
+### OCI Resources
+
+![image](https://user-images.githubusercontent.com/62715900/135936266-54fb8a6b-47e5-40f7-b379-c10c2d99da23.png)
+
+### OCI AuthN
+
+- User name / password
+- API signing Keys
+- Authentication tokens
+
+### OCI AuthZ (Policies)
+
+![image](https://user-images.githubusercontent.com/62715900/135936887-4abc9014-e8e1-4fcb-8b29-4cd3bd1766fa.png)
+
+### Compartments
+
+#### Compartment Access
+
+![image](https://user-images.githubusercontent.com/62715900/135937784-3184914f-7e93-4c68-8ae4-29da71dd4aa7.png)
+
+#### Compartment Example
+
+![image](https://user-images.githubusercontent.com/62715900/135938009-78b5345d-affc-44fd-97be-6099363c3042.png)
+
+#### Demo
+
+- Create OCI Compartment
+- Create OCI Group OCI-admin-group
+- Create OCI IAM User ociadmin and add user in group OCI-admin-group
+- Create Policy and add compartment sandbox in this policy\
+Policy Builder command: Allow group OCI-admins-group to manage all-resources in compartment sandbox 
+
+
