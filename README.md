@@ -111,8 +111,12 @@ Policy Builder command: Allow group OCI-admins-group to manage all-resources in 
 
 ![image](https://user-images.githubusercontent.com/62715900/137233276-76995f43-2534-4dd1-a324-d6b97abef750.png)
 
+### Network Security Lists
 
+![image](https://user-images.githubusercontent.com/62715900/137407285-e850ffd2-f370-4331-8ab0-9c71cf94d948.png)
 
+### Network Security Groups
 
+![image](https://user-images.githubusercontent.com/62715900/137407534-518bc12d-f0ab-4628-80e7-ff4d098f7a79.png)
 
 
