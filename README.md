@@ -88,3 +88,39 @@
 Policy statement: Allow group OCI-admins-group to manage all-resources in compartment sandbox
 - Create OCI IAM User ociadmin
 - Add user to group
+=======
+- Create OCI IAM User ociadmin and add user in group OCI-admin-group
+- Create Policy and add compartment sandbox in this policy\
+Policy Builder command: Allow group OCI-admins-group to manage all-resources in compartment sandbox
+
+## OCI VCN - VirtuaL Cloud Network
+
+### VCN Overview
+
+![image](https://user-images.githubusercontent.com/62715900/137231938-ddd82c4d-6fa1-47de-8fd5-0ef02818afaa.png)
+
+![image](https://user-images.githubusercontent.com/62715900/137231369-32ded426-83d7-486d-a0ce-d929bfb8c117.png)
+
+![image](https://user-images.githubusercontent.com/62715900/137231484-c7bd80b7-8566-4053-83b1-3a4404fdde30.png)
+
+### Route Table
+
+![image](https://user-images.githubusercontent.com/62715900/137232961-ccd519c1-fc90-4dd8-a8d5-2de13ed08c22.png)
+
+![image](https://user-images.githubusercontent.com/62715900/137233021-aa079410-7688-4b68-a061-cf44c80dcdf0.png)
+
+### Peering
+
+![image](https://user-images.githubusercontent.com/62715900/137233188-53523d26-10cb-4a36-bca2-5b353ccce5cb.png)
+
+### DRG v2
+
+![image](https://user-images.githubusercontent.com/62715900/137233276-76995f43-2534-4dd1-a324-d6b97abef750.png)
+
+### Network Security Lists
+
+![image](https://user-images.githubusercontent.com/62715900/137407285-e850ffd2-f370-4331-8ab0-9c71cf94d948.png)
+
+### Network Security Groups
+
+![image](https://user-images.githubusercontent.com/62715900/137407534-518bc12d-f0ab-4628-80e7-ff4d098f7a79.png)
