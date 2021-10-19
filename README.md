@@ -19,7 +19,9 @@
 - [Oracle Cloud](https://www.oracle.com/cloud/)
 - [Course](https://learn.oracle.com/ols/learning-path/become-an-oci-foundation-associate/35644/98057)
 - [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/)
+- [CLI Guide](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm#configfile)
 - [Powershell OCI Module](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/powershellgettingstarted.htm)
+- [Powershell OCI Module Git](https://github.com/oracle/oci-powershell-modules)
 
 ## OCI Introduction
 
@@ -44,7 +46,6 @@
 - Setting up your tenancy
 - MFA and Budget setup
 
-
 ## Identity and Access Managment
 
 ### OCI IAM
@@ -59,13 +60,13 @@
 
 ![image](https://user-images.githubusercontent.com/62715900/135936266-54fb8a6b-47e5-40f7-b379-c10c2d99da23.png)
 
-### OCI AuthN
+### OCI AuthN (Authentication)
 
 - User name / password
 - API signing Keys
 - Authentication tokens
 
-### OCI AuthZ (Policies)
+### OCI AuthZ (Authorization - Policies)
 
 ![image](https://user-images.githubusercontent.com/62715900/135936887-4abc9014-e8e1-4fcb-8b29-4cd3bd1766fa.png)
 
@@ -83,8 +84,7 @@
 
 - Create OCI Compartment
 - Create OCI Group OCI-admin-group
-- Create OCI IAM User ociadmin and add user in group OCI-admin-group
-- Create Policy and add compartment sandbox in this policy\
-Policy Builder command: Allow group OCI-admins-group to manage all-resources in compartment sandbox 
-
-
+- Create Policy \
+Policy statement: Allow group OCI-admins-group to manage all-resources in compartment sandbox
+- Create OCI IAM User ociadmin
+- Add user to group
