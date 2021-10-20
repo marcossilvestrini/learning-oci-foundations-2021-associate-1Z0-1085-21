@@ -1,6 +1,0 @@
-[DEFAULT]
-user=ocid1.user.oc1..aaaaaaaaeew2hfvcaxqavbbayjp7rhfksfi6zaoo4n23ql5cjgfnikbgsbha
-fingerprint=af:96:4d:f3:3e:4f:e7:8e:0b:cc:b2:b3:d9:c8:52:61
-key_file=C:\Users\marcos.silvestrini\.oci\oci_api_key.pem
-tenancy=ocid1.user.oc1..aaaaaaaaeew2hfvcaxqavbbayjp7rhfksfi6zaoo4n23ql5cjgfnikbgsbha
-region=sa-saopaulo-1
