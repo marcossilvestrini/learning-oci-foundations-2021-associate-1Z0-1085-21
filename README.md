@@ -131,19 +131,19 @@ Policy Builder command: Allow group OCI-admins-group to manage all-resources in 
 
 - Create a VCN with VCN Wizard
 
->Profile: ociadmin
->VCN type: internet connectivity
->VCN Name: sa-saopaulo-1
->Compartment: sandbox
->VCN CIDR Block: 10.0.0/16
->Public CIDR: 10.0.0.0/24
+>Profile: ociadmin\
+>VCN type: internet connectivity\
+>VCN Name: sa-saopaulo-1\
+>Compartment: sandbox\
+>VCN CIDR Block: 10.0.0/16\
+>Public CIDR: 10.0.0.0/24\
 >Public CIDR: 10.0.0.2/24
 
 - Create a instance for test VCN
 
->Type: Web Server
->set ssh public key in instance
->open ssh session in instance
+>Type: Web Server\
+>set ssh public key in instance\
+>open ssh session in instance\
 >install nginx
 
 - Extras
