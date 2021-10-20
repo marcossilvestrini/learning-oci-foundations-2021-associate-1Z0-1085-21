@@ -93,8 +93,6 @@
 
 - Add compartment sandbox in this policy
 
->Policy Builder command: Allow group OCI-admins-group to manage all-resources in compartment sandbox
-
 ## OCI VCN - VirtuaL Cloud Network
 
 ### VCN Overview
