@@ -83,16 +83,15 @@
 
 #### Demo IAM
 
-- Create OCI Compartment
-- Create OCI Group OCI-admin-group
-- Create Policy
+- Create OCI Compartment sandbox
+- Create OCI Group OCI-admins-group
+- Create OCI IAM User ociadmin
+- Add user ociadmin to group OCI-admins-group
+- Create Policy oci-admins-group-policy
 
 >Policy statement: Allow group OCI-admins-group to manage all-resources in compartment sandbox
 
-- Create OCI IAM User ociadmin
-- Add user to group
-- Create OCI IAM User ociadmin and add user in group OCI-admin-group
-- Create Policy and add compartment sandbox in this policy\
+- Add compartment sandbox in this policy
 Policy Builder command: Allow group OCI-admins-group to manage all-resources in compartment sandbox
 
 ## OCI VCN - VirtuaL Cloud Network
