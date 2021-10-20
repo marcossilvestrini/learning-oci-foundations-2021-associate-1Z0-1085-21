@@ -22,6 +22,7 @@
 - [CLI Guide](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm#configfile)
 - [Powershell OCI Module](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/powershellgettingstarted.htm)
 - [Powershell OCI Module Git](https://github.com/oracle/oci-powershell-modules)
+- [Setup OCI CLI](https://borysneselovskyi.wordpress.com/2019/06/25/install-and-configure-oracle-cloud-cli-on-the-oracle-linux-7-4/)
 
 ## OCI Introduction
 
@@ -80,15 +81,16 @@
 
 ![image](https://user-images.githubusercontent.com/62715900/135938009-78b5345d-affc-44fd-97be-6099363c3042.png)
 
-#### Demo
+#### Demo IAM
 
 - Create OCI Compartment
 - Create OCI Group OCI-admin-group
-- Create Policy \
-Policy statement: Allow group OCI-admins-group to manage all-resources in compartment sandbox
+- Create Policy
+
+>Policy statement: Allow group OCI-admins-group to manage all-resources in compartment sandbox
+
 - Create OCI IAM User ociadmin
 - Add user to group
-=======
 - Create OCI IAM User ociadmin and add user in group OCI-admin-group
 - Create Policy and add compartment sandbox in this policy\
 Policy Builder command: Allow group OCI-admins-group to manage all-resources in compartment sandbox
@@ -124,3 +126,26 @@ Policy Builder command: Allow group OCI-admins-group to manage all-resources in 
 ### Network Security Groups
 
 ![image](https://user-images.githubusercontent.com/62715900/137407534-518bc12d-f0ab-4628-80e7-ff4d098f7a79.png)
+
+#### Demo VCN
+
+- Create a VCN with VCN Wizard
+
+>Profile: ociadmin
+>VCN type: internet connectivity
+>VCN Name: sa-saopaulo-1
+>Compartment: sandbox
+>VCN CIDR Block: 10.0.0/16
+>Public CIDR: 10.0.0.0/24
+>Public CIDR: 10.0.0.2/24
+
+- Create a instance for test VCN
+
+>Type: Web Server
+>set ssh public key in instance
+>open ssh session in instance
+>install nginx
+
+- Extras
+
+>Configure Policy for access cloud-shell
