@@ -81,7 +81,14 @@
 
 ![image](https://user-images.githubusercontent.com/62715900/135938009-78b5345d-affc-44fd-97be-6099363c3042.png)
 
-#### Demo IAM
+### OCI CLI Commands for Compartments
+
+```powershell
+#list all compartments
+oci iam compartment list
+```
+
+### Demo IAM
 
 - Create OCI Compartment
 - Create OCI Group OCI-admin-group
@@ -132,19 +139,35 @@ Policy Builder command: Allow group OCI-admins-group to manage all-resources in 
 - Create a VCN with VCN Wizard
 
 >Profile: ociadmin\
->VCN type: internet connectivity\
->VCN Name: sa-saopaulo-1\
->Compartment: sandbox\
->VCN CIDR Block: 10.0.0/16\
->Public CIDR: 10.0.0.0/24\
->Public CIDR: 10.0.0.2/24
+VCN type: internet connectivity\
+VCN Name: sa-saopaulo-1\
+Compartment: sandbox\
+VCN CIDR Block: 10.0.0/16\
+Public CIDR: 10.0.0.0/24\
+Public CIDR: 10.0.0.2/24
 
 - Create a instance for test VCN
 
 >Type: Web Server\
->set ssh public key in instance\
->open ssh session in instance\
->install nginx
+set ssh public key in instance\
+open ssh session in instance\
+install httpd
+
+- Setup HTTPD in Instance
+
+>sudo firewall-cmd --permanent --add-port=80/tcp\
+sudo firewall-cmd --reload\
+sudo systemctl start httpd\
+sudo su\
+echo "My Web Server in OCI" >>/var/www/html/index.html
+
+- Setup VCN Public Network Security List
+
+>Ressource: Ingress Rule\
+Source CIDR: 0.0.0./0\
+IP Protocol: TCP
+Source Port Range: All
+Destination Port Range: 80
 
 - Extras
 
