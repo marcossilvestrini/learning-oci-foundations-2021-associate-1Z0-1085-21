@@ -15,6 +15,7 @@ Function Convert-JsonToHash($json) {
     return $hashtable
 }
 
+
 #Get compartments
 Function Get-Compartments {
     $hashtable = [ordered]@{}
@@ -22,6 +23,7 @@ Function Get-Compartments {
     $hashtable = Convert-JsonToHash $json
     return $hashtable.Data
 }
+
 
 #Get compartment-id
 Function Get-CompartmentID($name) {
@@ -38,6 +40,7 @@ Function Get-CompartmentID($name) {
     return $id
 }
 
+
 #Get instances
 Function Get-OCInstances($compartment) {
     #list all instances in compartment
@@ -46,6 +49,7 @@ Function Get-OCInstances($compartment) {
     $output.Data | Select-Object 'display-name', 'lifecycle-state'
 
 }
+
 
 #menu function
 Function Menu {
@@ -65,8 +69,8 @@ Function Menu {
 
 }
 
-#retrun to menu
 
+#retrun to menu
 Function ReturnMenu {
     $option = -1
     While ($option -ne 1) {
@@ -95,6 +99,7 @@ Function Main {
     }
 }
 
+
 #Begin Test area
 
 #Variables
@@ -105,7 +110,6 @@ $compartmentName = "sandbox"
 #Get-OCInstances $compartmentName
 
 #End Test area
-
 
 #Begin Progran
 Main
