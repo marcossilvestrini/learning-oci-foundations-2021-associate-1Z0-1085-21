@@ -176,7 +176,7 @@ Destination Port Range: 80
 Load Balance HTTP
 ![image](https://user-images.githubusercontent.com/62715900/139356422-40832f91-1d52-483f-b173-7c089d9bc0e5.png)
 
-Network Load Balance
+Network Load Balance\
 ![image](https://user-images.githubusercontent.com/62715900/139356550-39606bb8-366a-4ac6-8dd2-57c30d41f935.png)
 
 #### Demo Load Balance
