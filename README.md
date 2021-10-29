@@ -163,8 +163,8 @@ echo "My Web Server in OCI" >>/var/www/html/index.html
 
 >Ressource: Ingress Rule\
 Source CIDR: 0.0.0./0\
-IP Protocol: TCP
-Source Port Range: All
+IP Protocol: TCP\
+Source Port Range: All\
 Destination Port Range: 80
 
 - Extras
