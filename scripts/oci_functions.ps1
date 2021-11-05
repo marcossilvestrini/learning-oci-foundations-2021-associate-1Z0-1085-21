@@ -18,19 +18,22 @@ Function Convert-JsonToHash($json) {
 
 #Get compartments
 Function Get-Compartments {
+    Write-Host "Please wait...find ressource [COMPARTMENTS] in OCI"
     $hashtable = [ordered]@{}
     $json = oci iam compartment list
     $hashtable = Convert-JsonToHash $json
-    return $hashtable.Data
+    return $hashtable.Data.Name
 }
 
 
 #Get compartment-id
-Function Get-CompartmentID($name) {
+Function Get-CompartmentID() {
+    Write-Host "Please wait...find ressource [COMPARTMENT-ID] in OCI"
     $hashtable = [ordered]@{}
     $id = $null
     $json = oci iam compartment list
     $hashtable = Convert-JsonToHash $json
+    $name = Read-Host -Prompt "Enter Compartment Name"
     $hashtable.Data | ForEach-Object {
         If ($_.name -eq $name) {
             $id = $_.id
@@ -42,12 +45,32 @@ Function Get-CompartmentID($name) {
 
 
 #Get instances
-Function Get-OCInstances($compartment) {
+Function Get-OCInstances() {
+    Write-Host "Please wait...find ressource [INSTANCES] in OCI"
+    $hashtable = [ordered]@{}
+    $instances = [ordered]@{}
     #list all instances in compartment
-    $id = Get-CompartmentID $compartment
-    $output = oci compute instance list --compartment-id $id | ConvertFrom-Json
-    $output.Data | Select-Object 'display-name', 'lifecycle-state'
+    $id = Get-CompartmentID
+    $json = oci compute instance list --compartment-id $id
+    $hashtable = Convert-JsonToHash $json
+    #$output.Data | Select-Object 'display-name', 'lifecycle-state'
+    $hashtable.Data | ForEach-Object {
+        if ($_.'lifecycle-state' -ne "TERMINATED") {
+            $instances.Add($_.'display-name', $_.'lifecycle-state')
+        }
+    }
+    return $instances
+}
 
+
+#Get instance-id
+Function Get-InstanceID() {
+    Write-Host "Please wait...find ressource [INSTANCE-ID] in OCI"
+    $hashtable = [ordered]@{}
+    #$compartmentID = Get-CompartmentID
+    #$json = oci compute instance list --compartment-id $compartmentID
+    #$hashtable = Convert-JsonToHash $json
+    #return $hashtable.Data.id
 }
 
 
@@ -59,10 +82,11 @@ Function Menu {
 1 - Get Compartments
 2 - Get Compartment ID
 3 - List All Instances
-4 - Stop Instance
-5 - Start Instance
-6 - Terminate Instance
-7 - Exit
+4 - Get Instance ID
+5 - Stop Instance
+6 - Start Instance
+7 - Terminate Instance
+8 - Exit
 
 ---------------------------------
 '@
@@ -79,23 +103,25 @@ Function ReturnMenu {
     }
 }
 
+
 #main function
 Function Main {
-    While ($option -ne 7) {
+    While ($option -ne 8) {
         Clear-Host
         Menu
         $option = Read-Host -Prompt "Enter Option"
         switch ($option) {
             1 { Clear-Host; Get-Compartments; ReturnMenu }
-            2 { Clear-Host; $compartment = Read-Host -Prompt "Enter Compartment Name"; Get-CompartmentID $compartment; ReturnMenu }
-            3 { Clear-Host; $compartment = Read-Host -Prompt "Enter Compartment Name"; Get-OCInstances $compartment; ReturnMenu }
-            4 { Clear-Host; Write-Host "Stop Instance"; ReturnMenu }
-            5 { Clear-Host; Write-Host "Start Instance" ; ReturnMenu }
-            6 { Clear-Host; Write-Host "Terminate Instance"; ReturnMenu }
-            7 { Clear-Host; Write-Host "Exit" }
-            Default { Write-Host "Invalid Option!!!"; $option = 7 }
+            2 { Clear-Host; Get-CompartmentID; ReturnMenu }
+            3 { Clear-Host; Get-OCInstances; ReturnMenu }
+            4 { Clear-Host; Write-Host "Get Instance ID"; Get-InstanceID; ReturnMenu }
+            5 { Clear-Host; Write-Host "Stop Instance"; ReturnMenu }
+            6 { Clear-Host; Write-Host "Start Instance" ; ReturnMenu }
+            7 { Clear-Host; Write-Host "Terminate Instance"; ReturnMenu }
+            8 { Clear-Host; Write-Host "Exit" }
+            Default { Write-Host "Invalid Option!!!"; $option = 8 }
         }
-        Start-Sleep 1
+        #Start-Sleep 1
     }
 }
 
@@ -106,10 +132,10 @@ Function Main {
 $compartmentName = "sandbox"
 
 #Get-Compartments
-#Get-CompartmentID $compartmentName
-#Get-OCInstances $compartmentName
+#Get-CompartmentID
+Get-OCInstances
 
 #End Test area
 
 #Begin Progran
-Main
+#Main

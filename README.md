@@ -81,13 +81,6 @@
 
 ![image](https://user-images.githubusercontent.com/62715900/135938009-78b5345d-affc-44fd-97be-6099363c3042.png)
 
-### OCI CLI Commands for Compartments
-
-```powershell
-#list all compartments
-oci iam compartment list
-```
-
 ### Demo IAM
 
 - Create OCI Compartment sandbox
@@ -100,7 +93,7 @@ oci iam compartment list
 
 - Add compartment sandbox in this policy
 
-## OCI VCN - VirtuaL Cloud Network
+## Networking
 
 ### VCN Overview
 
@@ -180,5 +173,3 @@ Network Load Balance\
 ![image](https://user-images.githubusercontent.com/62715900/139356550-39606bb8-366a-4ac6-8dd2-57c30d41f935.png)
 
 #### Demo Load Balance
-
-
