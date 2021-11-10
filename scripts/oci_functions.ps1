@@ -5,55 +5,162 @@ Data: 28/10/2021
 #>
 
 #Convert Json from hashtable
-Function Convert-JsonToHash($json) {
-    $hashtable = [ordered]@{}
-    #Powershell 5
-    $out = $json | ConvertFrom-Json
-    $out.psobject.properties | ForEach-Object { $hashtable[$_.Name] = $_.Value }
-    #Powershell 6 or Later
-    #$hashtable = $json | ConvertFrom-Json -AsHashtable
-    return $hashtable
+Function Convert-JsonToHash {
+    <#
+    .SYNOPSIS
+        Convert Json to Hashtable
+    .DESCRIPTION
+        Function for convert object json for ordered hashtable
+        This function return a hashtable
+    .EXAMPLE
+        Convert-JsonToHash $json
+    #>
+
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        $json
+    )
+
+    begin {
+        $hashtable = [ordered]@{}
+        #Powershell 5
+    }
+
+    process {
+        $out = $json | ConvertFrom-Json
+        $out.psobject.properties | ForEach-Object { $hashtable[$_.Name] = $_.Value }
+        #Powershell 6 or Later
+        #$hashtable = $json | ConvertFrom-Json -AsHashtable
+    }
+
+    end {
+        return $hashtable
+    }
 }
 
 
 #Get compartments
 Function Get-Compartments {
-    Write-Host "Please wait...find ressource [COMPARTMENTS] in OCI"
-    $hashtable = [ordered]@{}
-    $json = oci iam compartment list
-    $hashtable = Convert-JsonToHash $json
-    return $hashtable.Data.Name
+    <#
+    .SYNOPSIS
+        Get OCI compartments
+    .DESCRIPTION
+        Function for get oci compartments em Oracle Cloud
+        This function read ~/.oci/config foi conect in Oracle Cloud
+    .EXAMPLE
+        Get-Compartments
+    #>
+
+    param (
+
+    )
+
+    begin {
+        Write-Host "---------------------------------------"
+        Write-Host "Please wait...find ressource [COMPARTMENTS] in OCI"
+        $hashtable = [ordered]@{}
+    }
+
+    process {
+        $json = oci iam compartment list
+        $hashtable = Convert-JsonToHash $json
+    }
+
+    end {
+        return $hashtable
+    }
+}
+
+#Compartments ToString
+Function CompartmentsToString {
+    <#
+    .SYNOPSIS
+        Compartment ToString
+    .DESCRIPTION
+        Function to print compartment names friendly
+        Print all compartments name in tenancy
+    .EXAMPLE
+        CompartmentsToString
+    #>
+
+    param (
+
+    )
+
+    begin {
+        $hashtable = [ordered]@{}
+        $compartments = [ordered]@{}
+    }
+
+    process {
+        $hashtable = Get-Compartments
+        for ($i = 0; $i -lt $hashtable.Data.count; $i++ ) {
+            Write-Host "---------------------------------------"
+            Write-Host "Compartment Name: $($hashtable.Data[$i].Name)"
+            Write-Host "Compartment State: $($hashtable.Data[$i].'lifecycle-state')"
+            Write-Host "Compartment Create in: $($hashtable.Data[$i].'time-created')"
+            Write-Host "---------------------------------------"
+        }
+    }
+
+    end {
+
+    }
 }
 
 
 #Get compartment-id
-Function Get-CompartmentID() {
-    Write-Host "Please wait...find ressource [COMPARTMENT-ID] in OCI"
-    $hashtable = [ordered]@{}
-    $id = $null
-    $json = oci iam compartment list
-    $hashtable = Convert-JsonToHash $json
-    $name = Read-Host -Prompt "Enter Compartment Name"
-    $hashtable.Data | ForEach-Object {
-        If ($_.name -eq $name) {
-            $id = $_.id
-            return
+Function Get-CompartmentID {
+    <#
+    .SYNOPSIS
+        Get compartment-id
+    .DESCRIPTION
+        Function for get compartment-id for specific id
+        This function return string compartment-id
+    .EXAMPLE
+        Get-CompartmentID "sandbox"
+    #>
+
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        $compartmentName
+    )
+
+    begin {
+        Write-Host "---------------------------------------"
+        Write-Host "Please wait...find ressource [COMPARTMENT-ID] in OCI"
+        $hashtable = [ordered]@{}
+        $id = $null
+    }
+
+    process {
+        $hashtable = Get-Compartments
+        $hashtable.Data | ForEach-Object {
+            If ($_.name -eq $compartmentName) {
+                $id = $_.id
+                return
+            }
         }
     }
-    return $id
+
+    end {
+        return $id
+    }
 }
 
 
 #Get instances
 Function Get-OCInstances() {
+    Write-Host "---------------------------------------"
     Write-Host "Please wait...find ressource [INSTANCES] in OCI"
     $hashtable = [ordered]@{}
     $instances = [ordered]@{}
     #list all instances in compartment
-    $id = Get-CompartmentID
-    $json = oci compute instance list --compartment-id $id
+    $compartmentID = Get-CompartmentID
+    $json = oci compute instance list --compartment-id $compartmentID
     $hashtable = Convert-JsonToHash $json
-    #$output.Data | Select-Object 'display-name', 'lifecycle-state'
     $hashtable.Data | ForEach-Object {
         if ($_.'lifecycle-state' -ne "TERMINATED") {
             $instances.Add($_.'display-name', $_.'lifecycle-state')
@@ -65,12 +172,31 @@ Function Get-OCInstances() {
 
 #Get instance-id
 Function Get-InstanceID() {
+    Write-Host "---------------------------------------"
     Write-Host "Please wait...find ressource [INSTANCE-ID] in OCI"
     $hashtable = [ordered]@{}
-    #$compartmentID = Get-CompartmentID
-    #$json = oci compute instance list --compartment-id $compartmentID
-    #$hashtable = Convert-JsonToHash $json
-    #return $hashtable.Data.id
+    $instances = [ordered]@{}
+    #list all instances in compartment
+    $compartmentID = Get-CompartmentID
+    $json = oci compute instance list --compartment-id $compartmentID
+    $hashtable = Convert-JsonToHash $json
+    $hashtable.Data | ForEach-Object {
+        if ($_.'lifecycle-state' -ne "TERMINATED") {
+            $instances.Add($_.id, $_.'display-name')
+        }
+    }
+    Write-Host "---------------------------------------"
+    Write-Host "Instances found..."
+    $instances.Values
+    Write-Host "---------------------------------------"
+    $instance = Read-Host -Prompt "Switch Instance Name"
+    $instances | ForEach-Object {
+        if ($_.Name -eq $instance) {
+            $id = $_.Value
+            return
+        }
+    }
+    return $id
 }
 
 
@@ -79,7 +205,7 @@ Function Menu {
     @'
 ---------------------------------
 
-1 - Get Compartments
+1 - List All Compartments
 2 - Get Compartment ID
 3 - List All Instances
 4 - Get Instance ID
@@ -103,7 +229,6 @@ Function ReturnMenu {
     }
 }
 
-
 #main function
 Function Main {
     While ($option -ne 8) {
@@ -111,7 +236,7 @@ Function Main {
         Menu
         $option = Read-Host -Prompt "Enter Option"
         switch ($option) {
-            1 { Clear-Host; Get-Compartments; ReturnMenu }
+            1 { Clear-Host; CompartmentsToString; ReturnMenu }
             2 { Clear-Host; Get-CompartmentID; ReturnMenu }
             3 { Clear-Host; Get-OCInstances; ReturnMenu }
             4 { Clear-Host; Write-Host "Get Instance ID"; Get-InstanceID; ReturnMenu }
@@ -121,21 +246,18 @@ Function Main {
             8 { Clear-Host; Write-Host "Exit" }
             Default { Write-Host "Invalid Option!!!"; $option = 8 }
         }
-        #Start-Sleep 1
     }
 }
-
 
 #Begin Test area
 
 #Variables
 $compartmentName = "sandbox"
 
-#Get-Compartments
-#Get-CompartmentID
-Get-OCInstances
 
 #End Test area
 
 #Begin Progran
-#Main
+Main
+
+
