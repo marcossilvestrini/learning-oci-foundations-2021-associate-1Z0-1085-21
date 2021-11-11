@@ -173,3 +173,8 @@ Network Load Balance\
 ![image](https://user-images.githubusercontent.com/62715900/139356550-39606bb8-366a-4ac6-8dd2-57c30d41f935.png)
 
 #### Demo Load Balance
+
+>Type: Load Balance HTTP\
+Backend Type: Round Robin\
+Protocol: HTTP\
+Port: 80
