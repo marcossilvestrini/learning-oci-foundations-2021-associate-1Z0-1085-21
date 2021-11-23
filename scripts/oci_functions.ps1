@@ -24,11 +24,11 @@ Function Convert-JsonToHash {
 
     begin {
         $hashtable = [ordered]@{}
-        #Powershell 5
     }
 
     process {
-        $out = $json | ConvertFrom-Json
+        #Powershell 5
+        $out = $json | ConvertFrom-Json -ErrorAction Stop
         $out.psobject.properties | ForEach-Object { $hashtable[$_.Name] = $_.Value }
         #Powershell 6 or Later
         #$hashtable = $json | ConvertFrom-Json -AsHashtable
@@ -52,13 +52,7 @@ Function Get-Compartments {
         Get-Compartments
     #>
 
-    param (
-
-    )
-
     begin {
-        Write-Host "---------------------------------------"
-        Write-Host "Please wait...find ressource [COMPARTMENTS] in OCI"
         $hashtable = [ordered]@{}
     }
 
@@ -66,6 +60,7 @@ Function Get-Compartments {
         $json = oci iam compartment list
         $hashtable = Convert-JsonToHash $json
     }
+
 
     end {
         return $hashtable
@@ -84,13 +79,8 @@ Function CompartmentsToString {
         CompartmentsToString
     #>
 
-    param (
-
-    )
-
     begin {
         $hashtable = [ordered]@{}
-        $compartments = [ordered]@{}
     }
 
     process {
@@ -119,18 +109,17 @@ Function Get-CompartmentID {
         Function for get compartment-id for specific id
         This function return string compartment-id
     .EXAMPLE
-        Get-CompartmentID "sandbox"
+        Get-CompartmentID -compartmentName "sandbox"
     #>
 
     param (
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
+        [String]
         $compartmentName
     )
 
     begin {
-        Write-Host "---------------------------------------"
-        Write-Host "Please wait...find ressource [COMPARTMENT-ID] in OCI"
         $hashtable = [ordered]@{}
         $id = $null
     }
@@ -152,51 +141,196 @@ Function Get-CompartmentID {
 
 
 #Get instances
-Function Get-OCInstances() {
-    Write-Host "---------------------------------------"
-    Write-Host "Please wait...find ressource [INSTANCES] in OCI"
-    $hashtable = [ordered]@{}
-    $instances = [ordered]@{}
-    #list all instances in compartment
-    $compartmentID = Get-CompartmentID
-    $json = oci compute instance list --compartment-id $compartmentID
-    $hashtable = Convert-JsonToHash $json
-    $hashtable.Data | ForEach-Object {
-        if ($_.'lifecycle-state' -ne "TERMINATED") {
-            $instances.Add($_.'display-name', $_.'lifecycle-state')
+Function Get-OCInstances {
+    <#
+    .SYNOPSIS
+        Get OCI Instances
+    .DESCRIPTION
+        Get OCI instance in compartment
+        Return hashtable of instances
+    .EXAMPLE
+        Get-OCInstances -compartmentName "sandbox"
+
+    #>
+
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $compartmentName
+    )
+
+    begin {
+        $hashtable = [ordered]@{}
+    }
+
+    process {
+        $compartmentID = Get-CompartmentID -compartmentName $compartmentName
+        $json = oci compute instance list --compartment-id $compartmentID
+        $hashtable = Convert-JsonToHash $json
+    }
+
+    end {
+        return $hashtable
+    }
+}
+
+#Instances ToString
+Function InstancesToString {
+    <#
+    .SYNOPSIS
+        Instances ToString
+    .DESCRIPTION
+        Function to print instances names friendly
+        Print all instance name in tenancy
+    .EXAMPLE
+        InstancesToString -compartmentName "sandbox"
+    #>
+
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $compartmentName
+    )
+
+    begin {
+        $hashtable = [ordered]@{}
+    }
+
+    process {
+        $hashtable = Get-OCInstances -compartmentName $compartmentName
+        for ($i = 0; $i -lt $hashtable.Data.count; $i++ ) {
+            Write-Host "---------------------------------------"
+            Write-Host "Instance Name: $($hashtable.Data[$i].'display-name')"
+            Write-Host "Instance State: $($hashtable.Data[$i].'lifecycle-state')"
+            Write-Host "Instance Create in: $($hashtable.Data[$i].'time-created')"
+            Write-Host "---------------------------------------"
         }
     }
-    return $instances
+
+    end {
+
+    }
 }
 
 
 #Get instance-id
-Function Get-InstanceID() {
-    Write-Host "---------------------------------------"
-    Write-Host "Please wait...find ressource [INSTANCE-ID] in OCI"
-    $hashtable = [ordered]@{}
-    $instances = [ordered]@{}
-    #list all instances in compartment
-    $compartmentID = Get-CompartmentID
-    $json = oci compute instance list --compartment-id $compartmentID
-    $hashtable = Convert-JsonToHash $json
-    $hashtable.Data | ForEach-Object {
-        if ($_.'lifecycle-state' -ne "TERMINATED") {
-            $instances.Add($_.id, $_.'display-name')
-        }
+Function Get-InstanceID {
+    <#
+    .SYNOPSIS
+        Get Instance ID
+    .DESCRIPTION
+        Function for get instance-id to specific instance name in specifi compartment name
+        Print instance id
+    .EXAMPLE
+        Get-InstanceID -compartmentName "sandbox" -instanceName $instanceName
+    #>
+
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $compartmentName,
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $instanceName
+    )
+
+    begin {
+        $hashtable = [ordered]@{}
+        $id = ""
     }
-    Write-Host "---------------------------------------"
-    Write-Host "Instances found..."
-    $instances.Values
-    Write-Host "---------------------------------------"
-    $instance = Read-Host -Prompt "Switch Instance Name"
-    $instances | ForEach-Object {
-        if ($_.Name -eq $instance) {
-            $id = $_.Value
-            return
+
+    process {
+        $hashtable = Get-OCInstances -compartmentName $compartmentName
+        $hashtable.Data | ForEach-Object {
+            if ($_.'display-name' -eq $instanceName) {
+                $id = $_.id
+                return
+            }
         }
+
     }
-    return $id
+
+    end {
+        return $id
+
+    }
+}
+
+#Stop OCI Intance
+Function Stop-OCInstance {
+    <#
+    .SYNOPSIS
+        Stop OCI Instance
+    .DESCRIPTION
+        Function for stop oci instance name
+    .EXAMPLE
+        Stop-OCInstance -compartmentName "sandbox" -instanceName "web-server"
+    #>
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $compartmentName,
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $instanceName
+    )
+
+    begin {
+        $id = ""
+    }
+
+    process {
+        $id = Get-InstanceID -compartmentName $compartmentName -instanceName $instanceName
+        Write-Host  "Please wait...process action"
+        oci compute instance action --action SOFTSTOP --instance-id $id
+    }
+
+    end {
+        return $?
+    }
+}
+
+
+#Start OCI Intance
+Function Start-OCInstance {
+    <#
+    .SYNOPSIS
+        Start OCI Instance
+    .DESCRIPTION
+        Function for start oci instance name
+    .EXAMPLE
+        Start-OCInstance -compartmentName "sandbox" -instanceName "web-server"
+    #>
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $compartmentName,
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $instanceName
+    )
+
+    begin {
+        $id = ""
+    }
+
+    process {
+        $id = Get-InstanceID -compartmentName $compartmentName -instanceName $instanceName
+        Write-Host  "Please wait...process action"
+        oci compute instance action --action START --instance-id $id
+    }
+
+    end {
+        return $?
+    }
 }
 
 
@@ -236,12 +370,56 @@ Function Main {
         Menu
         $option = Read-Host -Prompt "Enter Option"
         switch ($option) {
-            1 { Clear-Host; CompartmentsToString; ReturnMenu }
-            2 { Clear-Host; Get-CompartmentID; ReturnMenu }
-            3 { Clear-Host; Get-OCInstances; ReturnMenu }
-            4 { Clear-Host; Write-Host "Get Instance ID"; Get-InstanceID; ReturnMenu }
-            5 { Clear-Host; Write-Host "Stop Instance"; ReturnMenu }
-            6 { Clear-Host; Write-Host "Start Instance" ; ReturnMenu }
+            1 {
+                Clear-Host
+                Write-Host "---------------------------------------"
+                Write-Host "Please wait...find ressource [COMPARTMENTS] in OCI"
+                CompartmentsToString
+                ReturnMenu
+            }
+            2 {
+                Clear-Host
+                Write-Host "---------------------------------------"
+                Write-Host "Please wait...find ressource [COMPARTMENT-ID] in OCI"
+                $compartmentName = Read-Host -Prompt "Enter compartment name"
+                Get-CompartmentID -compartmentName $compartmentName
+                ReturnMenu
+            }
+            3 {
+                Clear-Host
+                Write-Host "---------------------------------------"
+                Write-Host "Please wait...find ressource [INSTANCES] in OCI"
+                $compartmentName = Read-Host -Prompt "Enter compartment name"
+                InstancesToString -compartmentName $compartmentName
+                ReturnMenu
+            }
+            4 {
+                Clear-Host
+                Write-Host "---------------------------------------"
+                Write-Host "Please wait...find ressource [INSTANCE-ID] in OCI"
+                $compartmentName = Read-Host -Prompt "Enter compartment name"
+                $instanceName = Read-Host -Prompt "Enter instance name"
+                Get-InstanceID -compartmentName $compartmentName $instanceName $instanceName
+                ReturnMenu
+            }
+            5 {
+                Clear-Host
+                Write-Host "---------------------------------------"
+                Write-Host "Please wait...execute action [STOP-INSTANCE] in OCI"
+                $compartmentName = Read-Host -Prompt "Enter compartment name"
+                $instanceName = Read-Host -Prompt "Enter instance name"
+                Stop-OCInstance -compartmentName $compartmentName -instanceName $instanceName
+                ReturnMenu
+            }
+            6 {
+                Clear-Host
+                Write-Host "---------------------------------------"
+                Write-Host "Please wait...execute action [STARTA-INSTANCE] in OCI"
+                $compartmentName = Read-Host -Prompt "Enter compartment name"
+                $instanceName = Read-Host -Prompt "Enter instance name"
+                Start-OCInstance -compartmentName $compartmentName -instanceName $instanceName
+                ReturnMenu
+            }
             7 { Clear-Host; Write-Host "Terminate Instance"; ReturnMenu }
             8 { Clear-Host; Write-Host "Exit" }
             Default { Write-Host "Invalid Option!!!"; $option = 8 }
