@@ -178,3 +178,30 @@ Network Load Balance\
 Backend Type: Round Robin\
 Protocol: HTTP\
 Port: 80
+
+## Compute
+
+### Types of Instances
+
+![image](https://user-images.githubusercontent.com/62715900/142080291-a1b2152e-1989-487e-8d5a-38436026db44.png)
+
+### Instance Base
+
+![image](https://user-images.githubusercontent.com/62715900/142080970-c6702b19-79a0-4c68-94a1-ab5213f537ad.png)
+
+### Scaling
+
+#### Vertical Scaling
+
+![image](https://user-images.githubusercontent.com/62715900/142081741-2df4248a-ce59-4523-9421-29f45b7eed30.png)
+
+#### AutoScaling(Horizontal)
+
+![image](https://user-images.githubusercontent.com/62715900/142082301-3733d2b6-ba1b-4291-a7a2-576edc9ae1ec.png)
+
+### OS Managment Service
+
+![image](https://user-images.githubusercontent.com/62715900/142083139-f54a2d8e-83fc-470d-830a-02da31305a58.png)
+
+
+
