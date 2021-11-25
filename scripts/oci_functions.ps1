@@ -214,6 +214,52 @@ Function InstancesToString {
     }
 }
 
+#Get StatusInstances
+Function Get-StatusInstance {
+    <#
+    .SYNOPSIS
+        Get Status of Instances
+    .DESCRIPTION
+        Function to get status of instances
+        Print status instance
+    .EXAMPLE
+        Get-StatusInstance -compartmentName "sandbox" -instanceName "webserver"
+    #>
+
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $compartmentName,
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $instanceName
+    )
+
+    begin {
+        $hashtable = [ordered]@{}
+    }
+
+    process {
+        $hashtable = Get-OCInstances -compartmentName $compartmentName
+        for ($i = 0; $i -lt $hashtable.Data.count; $i++ ) {
+            if ($hashtable.Data[$i].'display-name' -eq $instanceName) {
+                Write-Host "---------------------------------------"
+                Write-Host "Instance Name: $($hashtable.Data[$i].'display-name')"
+                Write-Host "Instance State: $($hashtable.Data[$i].'lifecycle-state')"
+                Write-Host "Instance Create in: $($hashtable.Data[$i].'time-created')"
+                Write-Host "---------------------------------------"
+                return
+            }
+        }
+    }
+
+    end {
+
+    }
+}
+
 
 #Get instance-id
 Function Get-InstanceID {
@@ -288,11 +334,11 @@ Function Stop-OCInstance {
     process {
         $id = Get-InstanceID -compartmentName $compartmentName -instanceName $instanceName
         Write-Host  "Please wait...process action"
-        oci compute instance action --action SOFTSTOP --instance-id $id
+        oci compute instance action --action SOFTSTOP --instance-id $id --wait-for-state "STOPPED" >$null
     }
 
     end {
-        return $?
+        Get-StatusInstance -compartmentName $compartmentName -instanceName $instanceName
     }
 }
 
@@ -325,11 +371,11 @@ Function Start-OCInstance {
     process {
         $id = Get-InstanceID -compartmentName $compartmentName -instanceName $instanceName
         Write-Host  "Please wait...process action"
-        oci compute instance action --action START --instance-id $id
+        oci compute instance action --action START --instance-id $id --wait-for-state "RUNNING" >$null
     }
 
     end {
-        return $?
+        Get-StatusInstance -compartmentName $compartmentName -instanceName $instanceName
     }
 }
 
@@ -427,11 +473,14 @@ Function Main {
     }
 }
 
+
 #Begin Test area
 
 #Variables
 $compartmentName = "sandbox"
+$instanceName = "Web-Server-01"
 
+#Get-StatusInstance -compartmentName $compartmentName -instanceName $instanceName
 
 #End Test area
 
