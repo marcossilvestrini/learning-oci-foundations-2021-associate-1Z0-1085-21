@@ -203,5 +203,22 @@ Port: 80
 
 ![image](https://user-images.githubusercontent.com/62715900/142083139-f54a2d8e-83fc-470d-830a-02da31305a58.png)
 
+## Storage
 
+## Database
 
+## Security
+
+## App Dev
+
+## Observability and Management
+
+## Analytics and AI
+
+## Hybrid
+
+## Governance and Administration
+
+## SLA and Support
+
+## Course Summary
