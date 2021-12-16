@@ -205,6 +205,19 @@ Port: 80
 
 ## Storage
 
+### Storage Services
+
+![image](https://user-images.githubusercontent.com/62715900/146287479-cdb7394b-9800-4b87-ab65-b0d412c32639.png)
+
+![image](https://user-images.githubusercontent.com/62715900/146287582-3a55ffee-d4d5-45fc-a2fc-e3484e7fd729.png)
+
+
+### Object Storage
+
+![image](https://user-images.githubusercontent.com/62715900/146288622-46b3d0b3-687a-40a1-b0af-8498a94bc592.png)
+
+![image](https://user-images.githubusercontent.com/62715900/146288870-68a9dde9-ba31-4061-a8b4-ca9d74155280.png)
+
 ## Database
 
 ## Security
