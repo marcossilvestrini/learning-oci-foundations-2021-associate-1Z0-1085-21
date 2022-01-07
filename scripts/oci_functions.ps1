@@ -384,6 +384,24 @@ Function Start-OCInstance {
 Function Menu {
     @'
 ---------------------------------
+OCI RESSOURCES
+
+1 - Compute
+2 - Storage
+3 - Network
+4 - Oracle Database
+5 - Identity
+6 - Exit
+
+---------------------------------
+'@
+}
+
+
+#TextOfMenuCompute function
+Function TextOfMenuCompute {
+    @'
+---------------------------------
 
 1 - List All Compartments
 2 - Get Compartment ID
@@ -396,24 +414,13 @@ Function Menu {
 
 ---------------------------------
 '@
-
 }
 
-
-#retrun to menu
-Function ReturnMenu {
-    $option = -1
-    While ($option -ne 1) {
-        $option = Read-Host -Prompt "Enter 1 for return menu"
-        if ($option -eq 1) { break }
-    }
-}
-
-#main function
-Function Main {
+#menu function
+Function MenuCompute {
     While ($option -ne 8) {
         Clear-Host
-        Menu
+        TextOfMenuCompute
         $option = Read-Host -Prompt "Enter Option"
         switch ($option) {
             1 {
@@ -469,6 +476,71 @@ Function Main {
             7 { Clear-Host; Write-Host "Terminate Instance"; ReturnMenu }
             8 { Clear-Host; Write-Host "Exit" }
             Default { Write-Host "Invalid Option!!!"; $option = 8 }
+        }
+    }
+}
+
+
+#retrun to menu
+Function ReturnMenu {
+    $option = -1
+    While ($option -ne 1) {
+        $option = Read-Host -Prompt "Enter 1 for return menu"
+        if ($option -eq 1) { break }
+    }
+}
+
+#main function
+Function Main {
+    While ($option -ne 6) {
+        Clear-Host
+        Menu
+        $option = Read-Host -Prompt "Enter Option"
+        switch ($option) {
+            1 {
+                Clear-Host
+                MenuCompute
+                # Write-Host "---------------------------------------"
+                # Write-Host "Please wait...find ressource [COMPARTMENTS] in OCI"
+                # CompartmentsToString
+                # ReturnMenu
+            }
+            # 2 {
+            #     Clear-Host
+            #     Write-Host "---------------------------------------"
+            #     Write-Host "Please wait...find ressource [COMPARTMENT-ID] in OCI"
+            #     $compartmentName = Read-Host -Prompt "Enter compartment name"
+            #     Get-CompartmentID -compartmentName $compartmentName
+            #     ReturnMenu
+            # }
+            # 3 {
+            #     Clear-Host
+            #     Write-Host "---------------------------------------"
+            #     Write-Host "Please wait...find ressource [INSTANCES] in OCI"
+            #     $compartmentName = Read-Host -Prompt "Enter compartment name"
+            #     InstancesToString -compartmentName $compartmentName
+            #     ReturnMenu
+            # }
+            # 4 {
+            #     Clear-Host
+            #     Write-Host "---------------------------------------"
+            #     Write-Host "Please wait...find ressource [INSTANCE-ID] in OCI"
+            #     $compartmentName = Read-Host -Prompt "Enter compartment name"
+            #     $instanceName = Read-Host -Prompt "Enter instance name"
+            #     Get-InstanceID -compartmentName $compartmentName $instanceName $instanceName
+            #     ReturnMenu
+            # }
+            # 5 {
+            #     Clear-Host
+            #     Write-Host "---------------------------------------"
+            #     Write-Host "Please wait...execute action [STOP-INSTANCE] in OCI"
+            #     $compartmentName = Read-Host -Prompt "Enter compartment name"
+            #     $instanceName = Read-Host -Prompt "Enter instance name"
+            #     Stop-OCInstance -compartmentName $compartmentName -instanceName $instanceName
+            #     ReturnMenu
+            # }
+            6 { Clear-Host; Write-Host "Exit" }
+            Default { Write-Host "Invalid Option!!!"; $option = 6 }
         }
     }
 }
